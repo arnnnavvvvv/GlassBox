@@ -1,1 +1,31 @@
 agent.md
+
+# env
+.env
+.env.local
+*.env
+!.env.example
+
+# node
+node_modules/
+.next/
+out/
+dist/
+build/
+npm-debug.log*
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# hardhat
+contracts/cache/
+contracts/artifacts/
+contracts/typechain/
+
+# misc
+.DS_Store
+*.log
