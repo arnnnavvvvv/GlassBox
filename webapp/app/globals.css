@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* Dark, crypto-native theme -- this is the one and only look (not adaptive
+   to system light mode); see AGENT.md §6. Near-black/near-white base with a
+   single cyan accent doing real UI work, plus fixed status colors. */
+:root {
+  color-scheme: dark;
+
+  --background: #08090b;
+  --surface: #101115;
+  --surface-raised: #16171c;
+  --foreground: #e8eaed;
+  --muted-foreground: #8b929c;
+  --border: rgba(255, 255, 255, 0.09);
+
+  --accent: #22d3ee;
+  --accent-foreground: #03181d;
+
+  --status-approved: #34d399;
+  --status-rejected: #f87171;
+  --status-hold: #9aa1ab;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-status-approved: var(--status-approved);
+  --color-status-rejected: var(--status-rejected);
+  --color-status-hold: var(--status-hold);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+@keyframes glassbox-draw-in {
+  from {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+  }
+  to {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1.06);
+  }
+}
+
+.glassbox-edge {
+  animation: glassbox-draw-in 900ms ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 500ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glassbox-edge,
+  .animate-glow-pulse,
+  .animate-fade-up {
+    animation: none;
+  }
+  .glassbox-edge {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+  .animate-fade-up {
+    opacity: 1;
+  }
+}
