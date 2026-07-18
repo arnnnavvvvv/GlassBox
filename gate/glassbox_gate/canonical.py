@@ -58,6 +58,14 @@ def _canonicalize_value(value: Any) -> Any:
     return value
 
 
+def canonicalize(value: Any) -> Any:
+    """Generic canonicalization (recursive key sort + fixed-precision numbers)
+    for any JSON-like value -- used for decision payloads and also for
+    one-off objects like a risk policy document before hashing it for
+    registerPolicy()."""
+    return _canonicalize_value(value)
+
+
 def canonicalize_decision(
     decision: dict, risk_verdict: dict, policy: str, timestamp: Union[str, datetime]
 ) -> dict:

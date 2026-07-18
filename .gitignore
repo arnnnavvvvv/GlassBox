@@ -25,6 +25,10 @@ venv/
 contracts/cache/
 contracts/artifacts/
 contracts/typechain/
+contracts/deployments/localhost.json
+
+# backend local state
+backend/*.db
 
 # misc
 .DS_Store

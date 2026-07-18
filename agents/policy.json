@@ -1,0 +1,10 @@
+{
+  "version": "risk_v1",
+  "maxPositionSize": 5000,
+  "allowedSymbols": ["BTC-USD", "ETH-USD"],
+  "rules": [
+    "Hard cap: reject any proposal whose size exceeds maxPositionSize, regardless of the LLM risk assessment.",
+    "Reject any proposal for a symbol outside allowedSymbols.",
+    "Otherwise, the risk agent evaluates the proposed action against recent price volatility and may approve or reject."
+  ]
+}
