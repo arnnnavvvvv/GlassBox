@@ -80,8 +80,10 @@ def canonicalize_decision(
 
 
 def canonical_json(payload: dict) -> str:
-    """Deterministic JSON serialization: sorted keys, no whitespace."""
-    return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    """Deterministic JSON serialization: sorted keys, no whitespace, raw UTF-8
+    (ensure_ascii=False) -- this must match JS's JSON.stringify byte-for-byte,
+    which does not \\uXXXX-escape non-ASCII characters either."""
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
 
 
 def hash_payload(payload: dict) -> str:

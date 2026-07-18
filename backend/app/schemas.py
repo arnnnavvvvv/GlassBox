@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseModel
 
@@ -29,6 +29,7 @@ class DecisionSummary(BaseModel):
     agentId: str
     action: str
     verdict: int
+    price: Optional[str] = None
     decisionHash: str
     txHash: str
     explorerUrl: str

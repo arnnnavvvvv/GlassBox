@@ -36,6 +36,7 @@ def _row_to_summary(row: dict) -> dict:
         "agentId": row["agentId"],
         "action": row["action"],
         "verdict": row["verdict"],
+        "price": row["price"],
         "decisionHash": row["decisionHash"],
         "txHash": row["txHash"],
         "explorerUrl": _explorer_url(row["txHash"]),

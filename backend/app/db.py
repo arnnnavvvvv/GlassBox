@@ -72,14 +72,16 @@ def list_decisions() -> list:
 
 
 def _row_to_dict(row: sqlite3.Row) -> dict:
+    payload = json.loads(row["payload"])
     return {
         "id": row["id"],
         "onchainId": row["onchain_id"],
         "agentId": row["agent_id"],
         "action": row["action"],
         "verdict": row["verdict"],
+        "price": payload.get("decision", {}).get("price"),
         "decisionHash": row["decision_hash"],
         "txHash": row["tx_hash"],
-        "payload": json.loads(row["payload"]),
+        "payload": payload,
         "createdAt": row["created_at"],
     }
