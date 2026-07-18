@@ -2,19 +2,20 @@
 
 /* Dark, crypto-native theme -- this is the one and only look (not adaptive
    to system light mode); see AGENT.md §6. Near-black/near-white base with a
-   single cyan accent doing real UI work, plus fixed status colors. */
+   single Monad-purple accent doing real UI work, plus fixed status colors. */
 :root {
   color-scheme: dark;
 
-  --background: #08090b;
-  --surface: #101115;
-  --surface-raised: #16171c;
-  --foreground: #e8eaed;
-  --muted-foreground: #8b929c;
+  --background: #050509;
+  --surface: #101018;
+  --surface-raised: #16161f;
+  --foreground: #f1f0f6;
+  --muted-foreground: #8f8ba3;
   --border: rgba(255, 255, 255, 0.09);
 
-  --accent: #22d3ee;
-  --accent-foreground: #03181d;
+  --accent: #836ef9;
+  --accent-2: #b9a4ff;
+  --accent-foreground: #ffffff;
 
   --status-approved: #34d399;
   --status-rejected: #f87171;
@@ -29,6 +30,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --color-accent-foreground: var(--accent-foreground);
   --color-status-approved: var(--status-approved);
   --color-status-rejected: var(--status-rejected);
@@ -50,31 +52,33 @@ body {
   background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-@keyframes glassbox-draw-in {
-  from {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-  }
-  to {
-    stroke-dasharray: 300;
-    stroke-dashoffset: 0;
-  }
+/* Subtle engineered grid, common to onchain/DeFi landing pages -- fades out
+   toward the edges so it reads as texture, not a literal grid. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 40%, transparent 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, var(--foreground) 30%, var(--accent-2) 75%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @keyframes glow-pulse {
   0%,
   100% {
-    opacity: 0.5;
+    opacity: 0.55;
     transform: translateX(-50%) scale(1);
   }
   50% {
-    opacity: 0.8;
-    transform: translateX(-50%) scale(1.06);
+    opacity: 0.85;
+    transform: translateX(-50%) scale(1.08);
   }
-}
-
-.glassbox-edge {
-  animation: glassbox-draw-in 900ms ease-out forwards;
 }
 
 .animate-glow-pulse {
@@ -97,15 +101,23 @@ body {
   animation: fade-up 500ms ease-out forwards;
 }
 
+@keyframes canvas-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-canvas-fade-in {
+  animation: canvas-fade-in 600ms ease-out forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .glassbox-edge,
   .animate-glow-pulse,
   .animate-fade-up {
     animation: none;
-  }
-  .glassbox-edge {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
   }
   .animate-fade-up {
     opacity: 1;

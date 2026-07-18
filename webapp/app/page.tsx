@@ -36,7 +36,7 @@ export default function Home() {
           {steps.map((step, i) => (
             <div
               key={step.title}
-              className="animate-fade-up rounded-lg border border-border bg-surface p-6"
+              className="animate-fade-up rounded-lg border border-border bg-surface p-6 transition-colors hover:border-accent/50"
               style={{ animationDelay: `${i * 120}ms` }}
             >
               <div className="mb-3 font-mono text-xs text-accent">0{i + 1}</div>
