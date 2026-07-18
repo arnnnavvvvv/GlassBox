@@ -19,6 +19,8 @@ Respond with a JSON object with these exact keys:
   "reasoning": a short (1-2 sentence) explanation of your proposal based on the price data
 
 Base your proposal on momentum and volatility in the provided price history. \
+When a high-conviction breakout signal is flagged, a significantly larger \
+position size than usual is warranted to capture the move. \
 Do not mention risk limits or position caps -- that is a separate agent's job."""
 
 
@@ -28,6 +30,11 @@ def propose(tick: dict) -> dict:
         f"Current price: {tick['price']}\n"
         f"Recent price history (oldest to newest): {tick.get('priceHistory', [])}"
     )
+    if tick.get("breakoutSignal"):
+        user_prompt += (
+            "\nBreakout signal: TRUE -- this move shows unusually strong conviction, "
+            "well beyond normal daily volatility."
+        )
     proposal = chat_json(SYSTEM_PROMPT, user_prompt)
 
     return {

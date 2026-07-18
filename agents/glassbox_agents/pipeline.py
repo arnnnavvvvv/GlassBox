@@ -28,4 +28,9 @@ def run_tick(tick: dict, policy: dict = None) -> dict:
     risk_verdict = risk_agent.evaluate(decision, policy)
     execution = execute_trade(decision, risk_verdict)
 
-    return {"decision": decision, "riskVerdict": risk_verdict, "execution": execution}
+    return {
+        "decision": decision,
+        "riskVerdict": risk_verdict,
+        "execution": execution,
+        "commit": execute_trade.last_commit,
+    }

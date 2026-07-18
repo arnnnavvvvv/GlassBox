@@ -1,0 +1,54 @@
+{
+  "description": "Scripted BTC-USD price ticks for the recorded GlassBox demo. Fixed, not random, so every take hits the same beats -- including a guaranteed risk-agent rejection.",
+  "ticks": [
+    {
+      "symbol": "BTC-USD",
+      "price": 42000.0,
+      "priceHistory": [41500.0, 41700.0, 41850.0, 41950.0],
+      "note": "Baseline: mild uptrend."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 42300.0,
+      "priceHistory": [41700.0, 41850.0, 41950.0, 42000.0],
+      "note": "Uptrend continues."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 42150.0,
+      "priceHistory": [41850.0, 41950.0, 42000.0, 42300.0],
+      "note": "Small pullback."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 42800.0,
+      "priceHistory": [41950.0, 42000.0, 42300.0, 42150.0],
+      "note": "Uptrend resumes."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 47500.0,
+      "priceHistory": [42000.0, 42300.0, 42150.0, 42800.0],
+      "breakoutSignal": true,
+      "note": "Engineered breakout tick (~11% single-tick move). Designed to push the trading agent toward a large position that trips the risk agent's hard position-size cap -- the guaranteed rejection beat."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 47200.0,
+      "priceHistory": [42300.0, 42150.0, 42800.0, 47500.0],
+      "note": "Consolidation after the breakout."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 46800.0,
+      "priceHistory": [42150.0, 42800.0, 47500.0, 47200.0],
+      "note": "Mild pullback."
+    },
+    {
+      "symbol": "BTC-USD",
+      "price": 47600.0,
+      "priceHistory": [42800.0, 47500.0, 47200.0, 46800.0],
+      "note": "Uptrend resolves higher."
+    }
+  ]
+}

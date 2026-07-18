@@ -59,8 +59,15 @@ def onchain_gate(policy: str, backend_url: str = None, timeout_seconds: float = 
             if not result.get("txHash"):
                 raise GateBlockedError("backend did not confirm an onchain commit -- refusing to execute")
 
+            # Stashed on the wrapper (not the return value) so the documented
+            # `execute_trade(decision, risk_verdict)` calling convention is
+            # unaffected; callers who want commit proof can read
+            # `execute_trade.last_commit` right after calling.
+            wrapper.last_commit = result
+
             return fn(decision, risk_verdict, *args, **kwargs)
 
+        wrapper.last_commit = None
         return wrapper
 
     return decorator
