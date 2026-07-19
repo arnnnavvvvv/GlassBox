@@ -25,6 +25,13 @@ Requires (see `.env.example` at repo root):
 - `BACKEND_WALLET_PRIVATE_KEY` -- lives only here, never in the repo or on the machine running the agent pipeline
 - A deployment at `../contracts/deployments/<network>.json` (produced by `npm run deploy:monad` in `/contracts`)
 
+Storage: decisions are stored in SQLite (`GLASSBOX_DB_PATH`, local file) by
+default -- fine for local dev, but hosts with ephemeral disk (Render's free
+tier, notably) wipe that file on every restart. Set `DATABASE_URL` to a
+Postgres connection string (e.g. a free Neon project) to use that instead;
+when it's set, Postgres is used unconditionally and `GLASSBOX_DB_PATH` is
+ignored.
+
 ## Run
 
 ```bash

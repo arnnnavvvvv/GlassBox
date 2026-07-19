@@ -14,6 +14,12 @@ DEPLOYMENT_FILE = REPO_ROOT / "contracts" / "deployments" / f"{DEPLOYMENT_NETWOR
 
 DB_PATH = os.environ.get("GLASSBOX_DB_PATH", str(REPO_ROOT / "backend" / "glassbox.db"))
 
+# When set (e.g. a Neon connection string), decisions are stored in Postgres
+# instead of the local SQLite file -- so data survives restarts on hosts with
+# ephemeral disk (Render's free tier, notably). Local dev without this var
+# set keeps using SQLite unchanged.
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
 
 def load_deployment() -> dict:
     """Reads the deployed contract address + ABI written by contracts/scripts/deploy.js.
