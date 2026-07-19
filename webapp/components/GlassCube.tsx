@@ -17,7 +17,7 @@ const prefersReducedMotion =
 
 function RotatingCube() {
   const groupRef = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => new THREE.BoxGeometry(1.7, 1.7, 1.7), []);
+  const geometry = useMemo(() => new THREE.BoxGeometry(4.2, 4.2, 4.2), []);
   const edgesGeometry = useMemo(() => new THREE.EdgesGeometry(geometry), [geometry]);
 
   useFrame((_, delta) => {
@@ -64,7 +64,7 @@ function Particle({ offset, color }: { offset: number; color: string }) {
       return;
     }
     const t = (clock.getElapsedTime() * 0.3 + offset) % 1;
-    ref.current.position.y = 2.6 - t * 5.2;
+    ref.current.position.y = 5.6 - t * 11.2;
     materialRef.current.opacity = Math.sin(t * Math.PI);
   });
 
@@ -81,12 +81,12 @@ export default function GlassCube() {
     <Canvas
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
-      camera={{ position: [0, 0, 5], fov: 38 }}
+      camera={{ position: [0, 0, 9], fov: 45 }}
       className="animate-canvas-fade-in"
     >
-      <ambientLight intensity={0.5} />
-      <pointLight position={[3, 3, 4]} intensity={1.2} color={ACCENT_2} />
-      <pointLight position={[-3, -2, -3]} intensity={0.7} color={ACCENT} />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[4, 4, 5]} intensity={1.4} color={ACCENT_2} />
+      <pointLight position={[-4, -3, -4]} intensity={0.8} color={ACCENT} />
       {/* Procedural environment (no external HDRI fetch) -- just gives the
           transmissive glass material something to reflect/refract. */}
       <Environment resolution={256}>

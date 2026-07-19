@@ -52,16 +52,6 @@ body {
   background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-/* Subtle engineered grid, common to onchain/DeFi landing pages -- fades out
-   toward the edges so it reads as texture, not a literal grid. */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 40%, transparent 100%);
-}
-
 .text-gradient {
   background: linear-gradient(120deg, var(--foreground) 30%, var(--accent-2) 75%, var(--accent) 100%);
   -webkit-background-clip: text;
@@ -69,20 +59,66 @@ body {
   color: transparent;
 }
 
-@keyframes glow-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: translateX(-50%) scale(1);
+/* Large, slow-drifting color fields behind the hero -- the "premium tech
+   company" background treatment, done in pure CSS (blurred gradients) so
+   there's no video asset to ship or load. */
+.hero-aurora {
+  position: absolute;
+  inset: -15% -10%;
+  background:
+    radial-gradient(38% 35% at 26% 22%, color-mix(in srgb, var(--accent) 60%, transparent), transparent 72%),
+    radial-gradient(34% 30% at 76% 28%, color-mix(in srgb, var(--accent-2) 50%, transparent), transparent 72%),
+    radial-gradient(42% 38% at 50% 82%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 72%);
+  filter: blur(90px);
+  animation: aurora-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    opacity: 0.85;
-    transform: translateX(-50%) scale(1.08);
+    transform: translate3d(2%, -3%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-2%, 2%, 0) scale(1.03);
   }
 }
 
-.animate-glow-pulse {
-  animation: glow-pulse 6s ease-in-out infinite;
+/* Fine grain overlay for a tactile, filmic finish -- a tiled SVG turbulence
+   texture, not an external image/video asset. */
+.hero-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("/noise.svg");
+  background-size: 200px 200px;
+}
+
+/* Darkens a horizontal band behind the hero copy so it stays legible over
+   the full-bleed 3D scene, while letting the cube's top/bottom peek through
+   clear of any overlay -- a scrim, not a solid backdrop. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--background) 60%, transparent) 32%,
+    color-mix(in srgb, var(--background) 60%, transparent) 68%,
+    transparent 100%
+  );
+}
+
+/* Guarantees a smooth dissolve into the flat background of the section
+   below, instead of the aurora/scrim glow getting hard-clipped exactly at
+   the hero's own bottom edge. */
+.hero-fade-bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40vh;
+  background: linear-gradient(to bottom, transparent, var(--background));
 }
 
 @keyframes fade-up {
@@ -115,8 +151,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-glow-pulse,
-  .animate-fade-up {
+  .animate-fade-up,
+  .hero-aurora {
     animation: none;
   }
   .animate-fade-up {
