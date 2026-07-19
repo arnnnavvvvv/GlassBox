@@ -6,6 +6,29 @@ import { hashPayload } from "@/lib/canonical";
 import { readOnchainDecision, type OnchainDecision } from "@/lib/chain";
 import type { DecisionDetail } from "@/lib/types";
 
+function humanizeKey(key: string): string {
+  const spaced = key.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase();
+}
+
+// Renders whatever fields the agent actually sent, in alphabetical order --
+// no assumption that a "symbol" or "reasoning" field exists. This is what
+// makes the Verify flow work for any agent's decision shape, not just a
+// trading agent's.
+function FieldList({ fields }: { fields: Record<string, unknown> }) {
+  const entries = Object.entries(fields).sort(([a], [b]) => a.localeCompare(b));
+  return (
+    <dl className="grid grid-cols-3 gap-y-2 text-sm">
+      {entries.map(([key, value]) => (
+        <div className="contents" key={key}>
+          <dt className="text-muted-foreground">{humanizeKey(key)}</dt>
+          <dd className="col-span-2 wrap-break-word">{String(value)}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 interface State {
   loading: boolean;
   error: string | null;
@@ -92,22 +115,23 @@ export default function VerifyModal({ decisionId, onClose }: { decisionId: numbe
               {verified ? "Verified — hashes match" : "Mismatch — hashes do not match"}
             </div>
 
-            <div>
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Decision payload
-              </h3>
-              <dl className="grid grid-cols-3 gap-y-2 text-sm">
-                <dt className="text-muted-foreground">Action</dt>
-                <dd className="col-span-2">
-                  {state.detail.payload.decision.action} {state.detail.payload.decision.symbol}
-                </dd>
-                <dt className="text-muted-foreground">Trading reasoning</dt>
-                <dd className="col-span-2">{state.detail.payload.decision.reasoning}</dd>
-                <dt className="text-muted-foreground">Risk verdict</dt>
-                <dd className="col-span-2">{state.detail.payload.riskVerdict.reason}</dd>
-                <dt className="text-muted-foreground">Policy version</dt>
-                <dd className="col-span-2 font-mono text-xs">{state.detail.payload.policy}</dd>
-              </dl>
+            <div className="space-y-4">
+              <div>
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Decision
+                </h3>
+                <FieldList fields={state.detail.payload.decision} />
+              </div>
+              <div>
+                <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Risk verdict
+                </h3>
+                <FieldList fields={state.detail.payload.riskVerdict} />
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Policy version</span>
+                <span className="font-mono text-xs">{state.detail.payload.policy}</span>
+              </div>
             </div>
 
             <div>
