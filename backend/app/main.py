@@ -110,4 +110,7 @@ def get_decision(decision_id: int):
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok"}
+    # Reports which storage backend is actually active -- not sensitive (no
+    # connection details), just useful for confirming DATABASE_URL was
+    # actually picked up rather than silently falling back to ephemeral SQLite.
+    return {"status": "ok", "storage": "postgres" if db.USING_POSTGRES else "sqlite"}
